@@ -1,13 +1,8 @@
 import requests
 from pathlib import Path
 from bs4 import BeautifulSoup
-from pdf import pdf
 
-def get_token(email, password):
-  pass
-  #Masqué pour des raisons de sécurité
-
-def get_pdf(token, server, email):
+def download_pdf(token, server, email):
   try:
     # Récupération du codepersonne
 
@@ -44,13 +39,5 @@ def get_pdf(token, server, email):
       pdf = requests.request("GET", url=semestre["urlDossier"], headers=headers, stream=True)
       with open('data/%s/semestre%s.pdf' % (email, semestre["numeroSemestre"]), 'wb') as f:
         f.write(pdf.content)
-  except:
-    return "error"
-
-def get_notes(email, password):
-  try:
-    token, server = get_token(email, password)
-    get_pdf(token, server, email)
-    return pdf(email, detailed=False)
   except:
     return "error"
