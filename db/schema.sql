@@ -1,0 +1,10 @@
+BEGIN TRANSACTION;
+DROP TABLE IF EXISTS "discord";
+CREATE TABLE IF NOT EXISTS "discord" (
+	"id"	INTEGER,
+	"email"	TEXT,
+	"password"	TEXT,
+	"discordid"	TEXT,
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
+COMMIT;
