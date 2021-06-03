@@ -22,6 +22,9 @@ class ShibaJudge():
         self.email = email
         self.passord = password
 
+    def get_token(self):
+        return self.token
+
     def auth(self, email, password):
         if self.email == None or self.passord == None:
             self.set_login(email, password)
