@@ -1,0 +1,2 @@
+class UnknownLogin(Exception):
+    pass
