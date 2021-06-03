@@ -1,7 +1,8 @@
+from core.ent import CesiAuth
+from core.error import *
 import tabula, json, requests
 from pathlib import Path
 from bs4 import BeautifulSoup
-from src.auth import cesi_auth
 
 class ShibaJudge():
 
@@ -24,12 +25,14 @@ class ShibaJudge():
     def auth(self, email, password):
         if self.email == None or self.passord == None:
             self.set_login(email, password)
+        cesi = CesiAuth()
         try:
-            self.token, self.server, self.ville = cesi_auth(email, password)
+            self.token, self.server, self.ville = cesi.ent_auth(email, password)
             return True
-        except:
-            self.log("{%s} Erreur d'authentification" % email)
+        except UnknownLogin:
             return False
+        except:
+            raise ErrorFatal
 
     def download(self):
         
