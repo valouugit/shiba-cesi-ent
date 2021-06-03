@@ -9,6 +9,7 @@ class ShibaJudge():
         self.discord_id = None
         self.email, self.passord = None, None
         self.token, self.server = None, None
+        self.ville = None
 
     def log(self, message):
         print("[Shiba] %s" % message)
@@ -24,7 +25,7 @@ class ShibaJudge():
         if self.email == None or self.passord == None:
             self.set_login(email, password)
         try:
-            self.token, self.server = cesi_auth(email, password)
+            self.token, self.server, self.ville = cesi_auth(email, password)
             return True
         except:
             self.log("{%s} Erreur d'authentification" % email)
