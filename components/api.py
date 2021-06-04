@@ -5,7 +5,9 @@ from flask_limiter.util import get_remote_address
 from waitress import serve
 from threading import Thread
 from core.shiba import ShibaJudge
+from core.data import ShibaData
 from core.error import *
+import jwt
 
 
 class ShibaAPI(Thread):
@@ -35,8 +37,18 @@ class ShibaAPI(Thread):
 
             try:
                 if shiba.auth(email, password):
-                    token = shiba.get_token()
-                    return flask.jsonify(status='success', token=token), 200
+
+                    try:
+                        data = ShibaData(email, shiba.get_ville())
+                        data.login()
+                        bde = 'ok'
+                    except BDENotFound:
+                        bde = 'not found'
+                    except:
+                        bde = 'error'
+
+                    jwt_token = jwt.encode({"token": shiba.get_token(), "email": email, "ville":shiba.get_ville()}, "valou", algorithm="HS256")
+                    return flask.jsonify(status='success', token=jwt_token, bde=bde), 200
                 else:
                     return flask.jsonify(status='error', message='invalid login'), 401
             except:

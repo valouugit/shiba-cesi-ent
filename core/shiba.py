@@ -24,6 +24,9 @@ class ShibaJudge():
 
     def get_token(self):
         return self.token
+    
+    def get_ville(self):
+        return self.ville
 
     def auth(self, email, password):
         if self.email == None or self.passord == None:
