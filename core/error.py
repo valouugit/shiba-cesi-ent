@@ -3,3 +3,6 @@ class UnknownLogin(Exception):
 
 class ErrorFatal(Exception):
     pass
+
+class BDENotFound(Exception):
+    pass
