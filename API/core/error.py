@@ -6,3 +6,6 @@ class ErrorFatal(Exception):
 
 class BDENotFound(Exception):
     pass
+
+class Forbidden(Exception):
+    pass

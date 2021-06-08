@@ -28,7 +28,6 @@ class CesiAuth():
     
       Cette section contient 4 requêtes  http pour se connecter à l'ent
       Elle est masquée pour des raisons de sécurité
-
       Elle génère l'erreur UnknownLogin lorsque les identifiants sont incorrects
     
     """

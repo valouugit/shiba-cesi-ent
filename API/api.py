@@ -54,5 +54,26 @@ class ShibaAPI(Thread):
             except:
                 return flask.jsonify(status='error', message='server internal error'), 500
 
+        @app.route('/v1/bde/product/create', methods=['POST'])
+        def bde_product_create():
+            name = request.args.get("name")
+            price = request.args.get("price")
+            token = request.args.get("token")
+
+            if name == None or price == None or token == None:
+                return flask.jsonify(status='error', message='bad request'), 400
+
+            user = jwt.decode(token, "valou", algorithms=["HS256"])
+            
+            try:
+                data = ShibaData(user["email"], user["ville"])
+                data.login()
+                data.product_create(action='create', name=name, price=price)
+                return flask.jsonify(status='success'), 200
+            except Forbidden:
+                return flask.jsonify(status='error', message='forbidden'), 403
+            except:
+                return flask.jsonify(status='error', message='server internal error'), 500
+
         print("[API] L'API de Shiba est lancé")
         serve(app, host="0.0.0.0", port=80)
