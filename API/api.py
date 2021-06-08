@@ -47,7 +47,7 @@ class ShibaAPI(Thread):
                     except:
                         bde = 'error'
 
-                    jwt_token = jwt.encode({"token": shiba.get_token(), "email": email, "ville":shiba.get_ville()}, "valou", algorithm="HS256")
+                    jwt_token = jwt.encode({"token": shiba.token, "email": email, "ville":shiba.ville}, "valou", algorithm="HS256")
                     return flask.jsonify(status='success', token=jwt_token, bde=bde), 200
                 else:
                     return flask.jsonify(status='error', message='invalid login'), 401

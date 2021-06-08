@@ -8,7 +8,7 @@ class ShibaJudge():
 
     def __init__(self):
         self.discord_id = None
-        self.email, self.passord = None, None
+        self.email, self._password = None, None
         self.token, self.server = None, None
         self.ville = None
 
@@ -20,16 +20,10 @@ class ShibaJudge():
 
     def set_login(self, email, password):
         self.email = email
-        self.passord = password
-
-    def get_token(self):
-        return self.token
-    
-    def get_ville(self):
-        return self.ville
+        self._password = password
 
     def auth(self, email, password):
-        if self.email == None or self.passord == None:
+        if self.email == None or self._password == None:
             self.set_login(email, password)
         cesi = CesiAuth()
         try:
