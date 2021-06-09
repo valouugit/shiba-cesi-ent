@@ -12,24 +12,28 @@ class ShibaData():
 
     def login(self):
         
-        def name_split(email):
-            names = email.split('@')
+        def name_split():
+            names = self.email.split('@')
             names = names[0].split('.')
             prenom, nom = names
             return prenom.title(), nom.upper()
 
+
         result = self.cursor.execute("SELECT Manager, Wallet FROM USER WHERE email='%s'" % self.email).fetchone()
         
         if result == None:
+
             result = self.cursor.execute("SELECT ID_BDE FROM BDE WHERE city='%s'" % self.ville).fetchone()
             if result == None:
-                raise BDENotFound()
+                bde = 0
             else:
-                prenom, nom = name_split(self.email)
                 bde = result[0]
-                self.cursor.execute("INSERT INTO USER ('LastName','FirstName','Email','ID_BDE', 'Manager', 'Wallet') VALUES ('%s', '%s', '%s', '%s', 'False', 0)" % (nom, prenom, self.email, bde))
-                self.db.commit()
-                return True
+
+            prenom, nom = name_split()
+
+            self.cursor.execute("INSERT INTO USER ('LastName','FirstName','Email','ID_BDE', 'Manager', 'Wallet') VALUES ('%s', '%s', '%s', '%s', 'False', 0)" % (nom, prenom, self.email, bde))
+            self.db.commit()
+
         else:
             self.manager = True if result[0] == 'True' else False
             self.wallet = result[1]
