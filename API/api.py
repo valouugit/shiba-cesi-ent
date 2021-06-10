@@ -39,11 +39,8 @@ class ShibaAPI(Thread):
                 if shiba.auth(email, password):
 
                     try:
-                        data = ShibaData(email, shiba.get_ville())
+                        data = ShibaData(email, shiba.ville)
                         data.login()
-                        bde = 'ok'
-                    except BDENotFound:
-                        bde = 'not found'
                     except:
                         bde = 'error'
 
@@ -51,27 +48,6 @@ class ShibaAPI(Thread):
                     return flask.jsonify(status='success', token=jwt_token, bde=bde), 200
                 else:
                     return flask.jsonify(status='error', message='invalid login'), 401
-            except:
-                return flask.jsonify(status='error', message='server internal error'), 500
-
-        @app.route('/v1/bde/product/create', methods=['POST'])
-        def bde_product_create():
-            name = request.args.get("name")
-            price = request.args.get("price")
-            token = request.args.get("token")
-
-            if name == None or price == None or token == None:
-                return flask.jsonify(status='error', message='bad request'), 400
-
-            user = jwt.decode(token, "valou", algorithms=["HS256"])
-            
-            try:
-                data = ShibaData(user["email"], user["ville"])
-                data.login()
-                data.product_create(action='create', name=name, price=price)
-                return flask.jsonify(status='success'), 200
-            except Forbidden:
-                return flask.jsonify(status='error', message='forbidden'), 403
             except:
                 return flask.jsonify(status='error', message='server internal error'), 500
 
