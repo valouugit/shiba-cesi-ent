@@ -3,7 +3,7 @@ from core.error import *
 
 class ShibaData():
 
-    def __init__(self, email, ville):
+    def __init__(self, email):
         self.email = email
         self.db = sqlite3.connect('/home/valouu/Documents/shiba/API/db/cesi.db')
         self.cursor = self.db.cursor()
